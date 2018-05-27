@@ -15,7 +15,6 @@ export class UsersService {
     const params = {
       _limit: perPage.toString(),
       _page: page.toString(),
-      // _expand: 'user'
     };
     return this.api
       .get<User[]>(ApiUrls.users, { params, observe: 'response' })
