@@ -1,11 +1,11 @@
 <p><a href="" routerLink="..">&lt; Back to users list</a></p>
-<h1 *ngIf="loading$|async; else postContent">Loading</h1>
+<!--<h1 *ngIf="loading$|async; else postContent">Loading</h1>-->
 
-<ng-template #postContent>
+<!--<ng-template #postContent>-->
   <app-todo-item
     [todo]="todo"
     *ngFor="let todo of todos"
     (onChanged) = "checkTodo($event)">
   </app-todo-item>
-</ng-template>
+<!--</ng-template>-->
 

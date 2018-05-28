@@ -10,13 +10,15 @@ export class TodoService {
   constructor(private api: HttpClient) {}
 
   getUserTodo(id) {
-    return this.api.get<Todo[]>(ApiUrls.todos, {
+    return this.api.get<Todo[]>(ApiUrls.todos
+      , {
       params: {
-        userId: id,
-        _sort: 'completed',
-        _order: 'asc'
+        userId: id
+        // _sort: 'completed',
+        // _order: 'asc'
       }
-    });
+    }
+    );
   }
 
   patchTodoCompleted(id: number, completed: boolean) {

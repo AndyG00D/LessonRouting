@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Subject } from 'rxjs/internal/Subject';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Todo } from '../../core/models/todo';
-import { TodoService} from '../../core/todo.service';
+import { TodoService } from '../../core/todo.service';
 
 @Component({
   selector: 'app-user-todo',
@@ -14,7 +14,7 @@ import { TodoService} from '../../core/todo.service';
 export class UserTodoComponent implements OnInit, OnDestroy {
   public loading$ = new BehaviorSubject(true);
   private destroy = new Subject();
-  public todos: Todo[] = [];
+  public todos: Todo[];
 
   constructor(
     private todoService: TodoService,
@@ -22,21 +22,25 @@ export class UserTodoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.route.params
-      .pipe(
-        tap(() => {
-          this.loading$.next(true);
-        }),
-        takeUntil(this.destroy),
-        switchMap(params => this.todoService.getUserTodo(+params['id']))
-      )
-      .subscribe(
-        todos => {
-          this.todos = todos;
-          this.loading$.next(false);
-        },
-        err => {
-          this.loading$.next(false);
+    this.route.data.subscribe(
+    // this.route.params
+    //     tap(() => {
+    //       this.loading$.next(true);
+    //     }),
+    //     takeUntil(this.destroy),
+    //     switchMap(params => this.todoService.getUserTodo(+params['id']))
+    //   )
+    //   .subscribe(
+
+        todo => {
+          // console.log(todo);
+          // this.todos.push(todo);
+
+          this.todos = todo.data;
+          // this.loading$.next(false);
+        // },
+        // err => {
+        //   this.loading$.next(false);
         }
       );
   }
