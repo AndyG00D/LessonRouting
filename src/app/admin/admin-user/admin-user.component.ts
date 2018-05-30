@@ -3,26 +3,30 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Subject } from 'rxjs/internal/Subject';
 import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { Post } from '../../core/models/post';
-import { PostsService } from '../../core/posts.service';
+import { User } from '../../core/models/user';
+import { UsersService } from '../../core/users.service';
 
 @Component({
-  selector: 'app-post-list',
+  selector: 'app-admin-user',
   templateUrl: './admin-user.component.html',
   styleUrls: ['./admin-user.component.css']
 })
 export class AdminUserComponent implements OnInit, OnDestroy {
-  public posts: Post[] = [];
+  public users: User[] = [];
   public page$ = new BehaviorSubject(1);
   public loading$ = new BehaviorSubject(true);
   public total: number = 0;
   private destroy = new Subject();
+  private currentPath: string;
+
 
   constructor(
-    private postsService: PostsService,
+    private usersService: UsersService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.currentPath = this.router.url.toString().split(';')[0];
+  }
 
   ngOnInit() {
     this.page$.next(this.route.snapshot.params.page || 1);
@@ -32,19 +36,19 @@ export class AdminUserComponent implements OnInit, OnDestroy {
         tap(page => {
           page = parseInt(page.toString(), 10);
           if (!isNaN(page)) {
-            this.router.navigate([{ page }]);
+            this.router.navigate([this.currentPath, { page }]);
           }
         }),
         takeUntil(this.destroy),
         switchMap(page => {
           this.loading$.next(true);
-          return this.postsService.list(page);
+          return this.usersService.getUserlist(page);
         })
       )
       .subscribe(
         res => {
           this.loading$.next(false);
-          this.posts = res.data;
+          this.users = res.data;
           this.total = res.total;
         },
         () => {

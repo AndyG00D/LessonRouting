@@ -1,12 +1,17 @@
-<p><a href="" routerLink="..">&lt; Back to posts list</a></p>
-<h1 *ngIf="loading$|async; else postContent">Loading</h1>
+<h1 *ngIf="loading$|async; else content">Loading</h1>
 
+<ng-template #content>
+  <app-admin-post-item [post]="post" *ngFor="let post of posts"></app-admin-post-item>
+  <div class="mt-4 text-center">
+    <ngb-pagination [collectionSize]="total"
+                    [page]="page$ | async"
+                    (pageChange)="changePage($event)"
+                    [maxSize]="5"
+                    [rotate]="true"
+                    [ellipses]="false"
+                    [pageSize]="10"
+                    [boundaryLinks]="true">
 
-<ng-template #postContent>
-
-  <h2 class="post-title">{{post?.title|titlecase}}</h2>
-  <p class="post-help">Author: {{post?.user?.name}}</p>
-  <main class="post-text">{{post?.body}}</main>
-  <app-comments [comments]="post?.comments"></app-comments>
+    </ngb-pagination>
+  </div>
 </ng-template>
-

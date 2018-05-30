@@ -5,7 +5,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 const routes: Routes = [
   {
     path: 'posts',
-    loadChildren: './posts/posts.module#AdminModule'
+    loadChildren: './posts/posts.module#PostsModule'
   },
   {
     path: 'users',

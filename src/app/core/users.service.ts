@@ -5,6 +5,7 @@ import { ApiUrls } from './api-urls';
 import { User } from './models/user';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,5 +29,9 @@ export class UsersService {
           };
         })
       );
+  }
+
+    getUser(id) {
+      return this.api.get<User>(`${ApiUrls.users}/${id}`);
   }
 }

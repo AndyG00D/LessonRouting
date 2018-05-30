@@ -25,11 +25,13 @@ export class PostListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log(this.route.snapshot.params.page );
     this.page$.next(this.route.snapshot.params.page || 1);
     this.page$
       .asObservable()
       .pipe(
         tap(page => {
+          console.log(page.toString() );
           page = parseInt(page.toString(), 10);
           if (!isNaN(page)) {
             this.router.navigate([{ page }]);

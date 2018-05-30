@@ -13,9 +13,9 @@ export class TodoService {
     return this.api.get<Todo[]>(ApiUrls.todos
       , {
       params: {
-        userId: id
-        // _sort: 'completed',
-        // _order: 'asc'
+        userId: id,
+        _sort: 'completed',
+        _order: 'asc'
       }
     }
     );

@@ -3,21 +3,22 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Subject } from 'rxjs/internal/Subject';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
-import { Post } from '../../core/models/post';
-import { PostsService } from '../../core/posts.service';
+import { User } from '../../core/models/user';
+import { UsersService } from '../../core/users.service';
+
 
 @Component({
-  selector: 'app-post-detail',
+  selector: 'app-admin-edit-user',
   templateUrl: './admin-edit-user.component.html',
   styleUrls: ['./admin-edit-user.component.scss']
 })
 export class AdminEditUserComponent implements OnInit, OnDestroy {
   public loading$ = new BehaviorSubject(true);
   private destroy = new Subject();
-  private post: Post;
+  public user: User;
 
   constructor(
-    private postsService: PostsService,
+    private userService: UsersService,
     private route: ActivatedRoute
   ) {}
 
@@ -28,11 +29,11 @@ export class AdminEditUserComponent implements OnInit, OnDestroy {
           this.loading$.next(true);
         }),
         takeUntil(this.destroy),
-        switchMap(params => this.loadPost(+params['id']))
+        switchMap(params => this.userService.getUser(+params['id']))
       )
       .subscribe(
-        post => {
-          this.post = post;
+        user => {
+          this.user = user;
           this.loading$.next(false);
         },
         err => {
@@ -45,9 +46,5 @@ export class AdminEditUserComponent implements OnInit, OnDestroy {
     this.destroy.next();
     this.destroy.complete();
     this.loading$.complete();
-  }
-
-  private loadPost(id) {
-    return this.postsService.detail(id);
   }
 }

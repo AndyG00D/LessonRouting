@@ -1,65 +1,53 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Subject } from 'rxjs/internal/Subject';
-import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Post } from '../../core/models/post';
 import { PostsService } from '../../core/posts.service';
 
 @Component({
-  selector: 'app-post-list',
+  selector: 'app-edit-post',
   templateUrl: './admin-edit-post.component.html',
-  styleUrls: ['./admin-edit-post.component.css']
+  styleUrls: ['./admin-edit-post.component.scss']
 })
 export class AdminEditPostComponent implements OnInit, OnDestroy {
-  public posts: Post[] = [];
-  public page$ = new BehaviorSubject(1);
   public loading$ = new BehaviorSubject(true);
-  public total: number = 0;
   private destroy = new Subject();
+  private post: Post;
 
   constructor(
     private postsService: PostsService,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.page$.next(this.route.snapshot.params.page || 1);
-    this.page$
-      .asObservable()
+    this.route.params
       .pipe(
-        tap(page => {
-          page = parseInt(page.toString(), 10);
-          if (!isNaN(page)) {
-            this.router.navigate([{ page }]);
-          }
+        tap(() => {
+          this.loading$.next(true);
         }),
         takeUntil(this.destroy),
-        switchMap(page => {
-          this.loading$.next(true);
-          return this.postsService.list(page);
-        })
+        switchMap(params => this.loadPost(+params['id']))
       )
       .subscribe(
-        res => {
+        post => {
+          this.post = post;
           this.loading$.next(false);
-          this.posts = res.data;
-          this.total = res.total;
         },
-        () => {
+        err => {
           this.loading$.next(false);
         }
       );
-  }
-
-  public changePage(page: number) {
-    this.page$.next(page);
   }
 
   public ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.complete();
     this.loading$.complete();
+  }
+
+  private loadPost(id) {
+    return this.postsService.detail(id);
   }
 }

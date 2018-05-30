@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Todo } from '../../core/models/todo';
 import { TodoService } from '../../core/todo.service';
+import { Route } from '@angular/router';
 
 @Component({
   selector: 'app-user-todo',
@@ -12,7 +13,6 @@ import { TodoService } from '../../core/todo.service';
   styleUrls: ['./user-todo.component.scss']
 })
 export class UserTodoComponent implements OnInit, OnDestroy {
-  public loading$ = new BehaviorSubject(true);
   private destroy = new Subject();
   public todos: Todo[];
 
@@ -23,24 +23,11 @@ export class UserTodoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.data.subscribe(
-    // this.route.params
-    //     tap(() => {
-    //       this.loading$.next(true);
-    //     }),
-    //     takeUntil(this.destroy),
-    //     switchMap(params => this.todoService.getUserTodo(+params['id']))
-    //   )
-    //   .subscribe(
-
-        todo => {
-          // console.log(todo);
-          // this.todos.push(todo);
-
+         todo => {
           this.todos = todo.data;
-          // this.loading$.next(false);
-        // },
-        // err => {
-        //   this.loading$.next(false);
+        },
+        err => {
+          console.log(err.message);
         }
       );
   }
@@ -48,7 +35,6 @@ export class UserTodoComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.complete();
-    this.loading$.complete();
   }
 
 
@@ -57,7 +43,14 @@ export class UserTodoComponent implements OnInit, OnDestroy {
       .subscribe(
         todo => {
           console.log('change todo: ' + JSON.stringify(todo));
-          this.ngOnInit();
+          this.route.data.subscribe(
+            todo => {
+              this.todos = todo.data;
+            },
+            err => {
+              console.log(err.message);
+            }
+          );
         },
         error => {
           console.log('Error: ' + error.message);

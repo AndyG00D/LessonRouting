@@ -1,16 +1,13 @@
-<h1 *ngIf="loading$|async; else content">Loading</h1>
-<ng-template #content>
-  <app-post-item [post]="post" *ngFor="let post of posts"></app-post-item>
-  <div class="mt-4 text-center">
-    <ngb-pagination [collectionSize]="total"
-                    [page]="page$ | async"
-                    (pageChange)="changePage($event)"
-                    [maxSize]="5"
-                    [rotate]="true"
-                    [ellipses]="false"
-                    [pageSize]="10"
-                    [boundaryLinks]="true">
+<!--<h1>Admin page</h1>-->
 
-    </ngb-pagination>
-  </div>
-</ng-template>
+<!--<ul class="navbar-nav mr-auto">-->
+  <!--<li class="nav-item" routerLinkActive="active">-->
+    <!--<a class="nav-link" routerLink="./posts" href="#">Posts</a>-->
+  <!--</li>-->
+  <!--<li class="nav-item" routerLinkActive="active">-->
+    <!--<a class="nav-link" routerLink="./users" href="#">Users</a>-->
+  <!--</li>-->
+<!--</ul>-->
+
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
