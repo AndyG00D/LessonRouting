@@ -769,7 +769,7 @@ base@^0.11.1:
 
 basic-auth@~2.0.0:
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-2.0.0.tgz#015db3f353e02e56377755f962742e8981e7bbba"
+  resolved "https://registry.yarnpkg.com/basic-isLogIn$/-/basic-isLogIn$-2.0.0.tgz#015db3f353e02e56377755f962742e8981e7bbba"
   dependencies:
     safe-buffer "5.1.1"
 
@@ -4122,7 +4122,7 @@ morgan@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
   dependencies:
-    basic-auth "~2.0.0"
+    basic-isLogIn$ "~2.0.0"
     debug "2.6.9"
     depd "~1.1.1"
     on-finished "~2.3.0"
@@ -4588,7 +4588,7 @@ package-json@^4.0.0:
   resolved "https://registry.yarnpkg.com/package-json/-/package-json-4.0.1.tgz#8869a0401253661c4c4ca3da6c2121ed555f5eed"
   dependencies:
     got "^6.7.1"
-    registry-auth-token "^3.0.1"
+    registry-isLogIn$-token "^3.0.1"
     registry-url "^3.0.3"
     semver "^5.1.0"
 
@@ -5155,7 +5155,7 @@ regexpu-core@^1.0.0:
 
 registry-auth-token@^3.0.1:
   version "3.3.2"
-  resolved "https://registry.yarnpkg.com/registry-auth-token/-/registry-auth-token-3.3.2.tgz#851fd49038eecb586911115af845260eec983f20"
+  resolved "https://registry.yarnpkg.com/registry-isLogIn$-token/-/registry-isLogIn$-token-3.3.2.tgz#851fd49038eecb586911115af845260eec983f20"
   dependencies:
     rc "^1.1.6"
     safe-buffer "^5.0.1"
