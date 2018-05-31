@@ -38,4 +38,8 @@ export class PostsService {
       }
     });
   }
+
+  public setPost(id: number, data: Object ) {
+    return this.api.patch<Post>(`${ApiUrls.posts}/${id}`, data );
+  }
 }

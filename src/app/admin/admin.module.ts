@@ -13,9 +13,11 @@ import { AdminCommentsComponent } from './components/admin-comments/admin-commen
 import { AdminPostItemComponent } from './components/admin-post-item/admin-post-item.component';
 import { AdminUserItemComponent } from './components/admin-user-item/admin-user-item.component';
 import { AdminHeaderComponent } from './components/admin-header/admin-header.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
-  imports: [CommonModule, AdminRoutingModule, NgbPaginationModule],
+  imports: [CommonModule, AdminRoutingModule, NgbPaginationModule, FormsModule, ReactiveFormsModule],
   declarations: [
     AdminComponent,
     AdminUserComponent,

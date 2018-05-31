@@ -1,9 +1,37 @@
 <p><a href="" routerLink="..">&lt; Back to posts list</a></p>
 <h1 *ngIf="loading$|async; else postContent">Loading</h1>
 <ng-template #postContent>
-  <h2 class="post-title">{{post?.title|titlecase}}</h2>
-  <p class="post-help">Author: {{post?.user?.name}}</p>
-  <main class="post-text">{{post?.body}}</main>
-  <app-admin-comments [comments]="post?.comments"></app-admin-comments>
+  <!--<h2 class="post-title">{{post?.title|titlecase}}</h2>-->
+  <!--<p class="post-help">Author: {{post?.user?.name}}</p>-->
+  <!--<main class="post-text">{{post?.body}}</main>-->
+  <!--<app-admin-comments [comments]="post?.comments"></app-admin-comments>-->
+
+  <form class="form-group"  #heroForm="ngForm" [formGroup]="fg">
+     <label>Tittle
+    <input type="text" name="title" formControlName="title">
+    </label>
+    <!--<ng-container *ngIf="fg.get('title')"> </ng-container>-->
+    <label>Text
+      <textarea type="aria" name="text" formControlName="text">
+      </textarea>
+    </label>
+    <!--<div class="form-group">-->
+      <!--<label class="center-block">State:-->
+        <!--<select class="form-control" name="user" formControlName="user" >-->
+          <!--<option value="state1">User 1</option>-->
+          <!--<option value="state2">User 2</option>-->
+          <!--<option value="state3">User 3</option>-->
+          <!--<option value="state4">User 4</option>-->
+        <!--</select>-->
+      <!--</label>-->
+    <!--</div>-->
+    <p>Form value: {{ fg.value | json }}</p>
+    <!--<pre> {{fg.get('title')}} </pre>-->
+    <!--<ng-container> {{fg.get('text')}} </ng-container>-->
+    <!--<ng-container> {{fg.get('user')}} </ng-container>-->
+    <button (click)="submit()" >Save</button>
+  </form>
+
+
 </ng-template>
 
