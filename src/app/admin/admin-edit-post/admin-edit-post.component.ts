@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Post } from '../../core/models/post';
 import { PostsService } from '../../core/posts.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-post',
@@ -17,6 +17,11 @@ export class AdminEditPostComponent implements OnInit, OnDestroy {
   private destroy = new Subject();
   private post: Post;
   public fg;
+  public items: any[];
+  //   new FormArray([
+  //   new FormControl('Nancy', Validators.minLength(2)),
+  //   new FormControl('Drew'),
+  // ]);
 
 
 
@@ -24,11 +29,18 @@ export class AdminEditPostComponent implements OnInit, OnDestroy {
     private postsService: PostsService,
     private route: ActivatedRoute
   ) {
+    // this.items = new FormGroup({
+    //   name: new FormControl( ''),
+    //   description:  new FormControl(''),
+    //   price:  new FormControl('')
+    // });
     // this.fg.get('text').disable();
     // this.fg.get('user').valueChanges.subscribe();
     this.fg = new FormGroup(
       { title: new FormControl('test', [Validators.required, Validators.minLength(10)]),
-        body: new FormControl('test', [Validators.required, Validators.minLength(10)])});
+        body: new FormControl('test', [Validators.required, Validators.minLength(10)]),
+        items: new FormArray([this.createItem()])
+      });
   }
 
   // add(){
@@ -40,7 +52,7 @@ export class AdminEditPostComponent implements OnInit, OnDestroy {
   //   this.fg.get('text').pipe;
   // )
 
-  ngOnInit(){
+  ngOnInit() {
     this.route.params
       .pipe(
         tap(() => {
@@ -63,7 +75,7 @@ export class AdminEditPostComponent implements OnInit, OnDestroy {
       );
   }
 
-  submit(){
+  submit() {
     const data = this.fg.value;
     this.postsService.setPost(this.post.id, data).subscribe();
   }
@@ -77,4 +89,35 @@ export class AdminEditPostComponent implements OnInit, OnDestroy {
   private loadPost(id) {
     return this.postsService.detail(id);
   }
+
+  // get items(): FormArray {
+  //   return this.fg.get('items') as FormArray;
+  // }
+
+  createItem(): FormGroup {
+    return new FormGroup({
+      name: new FormControl( '', [this.sameField]),
+      description:  new FormControl(''),
+      price:  new FormControl('')
+    });
+  }
+
+  addItem(): void {
+    // this.items = this.fg.get('items') as FormArray;
+    // this.items.push(this.createItem());
+    this.fg.get('items').push(this.createItem());
+  }
+
+  removeItem(i: number) {
+    this.fg.get('items').removeAt(i);
+  }
+
+
+  sameField(control: AbstractControl) {
+    if ( control.value.length > 30) {
+      return {length: true};
+    }
+    return null;
+  }
+
 }

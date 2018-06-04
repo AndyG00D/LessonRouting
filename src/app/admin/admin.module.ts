@@ -28,7 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AdminCommentsComponent,
     AdminPostItemComponent,
     AdminUserItemComponent,
-    AdminHeaderComponent
+    AdminHeaderComponent,
   ],
   exports: [
     AdminComponent,

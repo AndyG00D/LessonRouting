@@ -12,9 +12,29 @@
     </label>
     <!--<ng-container *ngIf="fg.get('title')"> </ng-container>-->
     <label>Text
-      <textarea type="aria" name="text" formControlName="text">
+      <textarea type="aria" name="body" formControlName="body">
       </textarea>
     </label>
+    <div formArrayName="items" class="well well-lg">
+      *ngFor="let item of fg.get('items').controls; let i = index;"
+      <div  type="text"  [formGroupName]="i" >
+        <input formControlName="name" placeholder="Item name">
+        <pre> {{ item.get('name').errors | json }} <pre>
+        <input formControlName="description" placeholder="Item description">
+        <input formControlName="price" placeholder="Item price">
+        <button (click)="removeItem(i)">-</button>
+      </div>
+    </div>
+    <button (click)="addItem()">add</button>
+
+
+
+
+    <!--<div formArrayName="items">-->
+    <!--<ng-container *ngForm="let control of fg.formArrayName('items'); index as i;">-->
+      <!--<input type="text" name="title" formControlName="i">-->
+    <!--</ng-container>-->
+    <!--</div>-->
     <!--<div class="form-group">-->
       <!--<label class="center-block">State:-->
         <!--<select class="form-control" name="user" formControlName="user" >-->
